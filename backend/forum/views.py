@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from rest_framework import filters
 from huggingface_hub.inference_api import InferenceApi
 from django_filters.rest_framework import DjangoFilterBackend
+from .preprocess import *
 
 from .models import Message
 from .serializers import MessageSerializer
@@ -22,6 +23,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         text = self.request.data['text']
+        text = process_tweets([text], fa=True)[0]
         result = self.inference(inputs=text)
         pred_classes = result[0]
         labels = {'LABEL_0': 'فقط توهین' , 'LABEL_1': 'خنثی', 'LABEL_2': 'مذهب', 'LABEL_3': 'ملیت', 'LABEL_4': 'نژاد و قومیت'}

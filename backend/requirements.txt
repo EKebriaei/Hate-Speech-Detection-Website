@@ -7,3 +7,6 @@ django-crispy-forms
 django-cors-headers
 huggingface_hub
 django-import-export
+emoji
+wordsegment
+parsivar
